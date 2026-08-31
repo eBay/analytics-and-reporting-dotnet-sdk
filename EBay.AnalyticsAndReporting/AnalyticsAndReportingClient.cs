@@ -15,18 +15,13 @@
 
 using System;
 using System.Net.Http;
-using EBay.AnalyticsAndReporting.Clients.Rest;
 using EBay.AnalyticsAndReporting.Configuration;
-using EBay.AnalyticsAndReporting.Generated.Analytics;
 using Microsoft.Kiota.Abstractions.Authentication;
-using Microsoft.Kiota.Http.HttpClientLibrary;
 
 namespace EBay.AnalyticsAndReporting;
 
-public sealed class AnalyticsAndReportingClient : IDisposable
+public partial class AnalyticsAndReportingClient : IDisposable
 {
-    public AnalyticsRestSubClient Analytics { get; }
-
     private readonly HttpClient _httpClient;
     private readonly bool _ownsHttpClient;
 
@@ -40,7 +35,8 @@ public sealed class AnalyticsAndReportingClient : IDisposable
         _httpClient = httpClient;
         _ownsHttpClient = false;
 
-        Analytics = BuildAnalyticsSubClient(config, tokenContext);
+        var auth = new BaseBearerTokenAuthenticationProvider(new KiotaAuthProvider(config, tokenContext));
+        InitializeRestClients(auth, httpClient, config, tokenContext);
     }
 
     // Standalone constructor — owns the HttpClient
@@ -57,19 +53,6 @@ public sealed class AnalyticsAndReportingClient : IDisposable
             InnerHandler = new SocketsHttpHandler { PooledConnectionLifetime = TimeSpan.FromMinutes(2) }
         };
         return new HttpClient(handler) { Timeout = config.HttpTimeout };
-    }
-
-    private AnalyticsRestSubClient BuildAnalyticsSubClient(AnalyticsAndReportingConfiguration config, ITokenContext tokenContext)
-    {
-        var authProvider = new KiotaAuthProvider(config, tokenContext);
-        var kiotaClient = BuildKiotaClient(config.AnalyticsBaseUrl, _httpClient);
-        var adapter = new HttpClientRequestAdapter(
-            new BaseBearerTokenAuthenticationProvider(authProvider),
-            httpClient: kiotaClient)
-        {
-            BaseUrl = config.AnalyticsBaseUrl
-        };
-        return new AnalyticsRestSubClient(new AnalyticsApiClient(adapter), config, tokenContext);
     }
 
     private static HttpClient BuildKiotaClient(string baseUrl, HttpClient httpClient)
