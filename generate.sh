@@ -35,6 +35,9 @@ dotnet kiota generate \
   -o EBay.AnalyticsAndReporting/Generated/Analytics \
   --ebc --co
 
+echo "Adding license headers to generated files..."
+./add-license-headers.sh ./EBay.AnalyticsAndReporting/Generated
+
 # Build the project
 echo ""
 echo "Building the SDK..."
