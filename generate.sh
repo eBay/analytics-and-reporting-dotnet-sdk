@@ -29,7 +29,7 @@ echo ""
 echo "Regenerating REST client with Kiota..."
 dotnet kiota generate \
   -l csharp \
-  -d specs/sell_analytics_v1_oas3.yaml \
+  -d specs/openapi/analytics.yaml \
   -c AnalyticsApiClient \
   -n EBay.AnalyticsAndReporting.Generated.Analytics \
   -o EBay.AnalyticsAndReporting/Generated/Analytics \
