@@ -28,12 +28,11 @@ public partial class AnalyticsAndReportingClient
 
     private void InitializeRestClients(
         IAuthenticationProvider auth,
-        HttpClient httpClient,
+        HttpClient analyticsClient,
         AnalyticsAndReportingConfiguration config,
         ITokenContext tokenContext)
     {
-        var kiotaClient = BuildKiotaClient(config.AnalyticsBaseUrl, httpClient);
-        var adapter = new HttpClientRequestAdapter(auth, httpClient: kiotaClient)
+        var adapter = new HttpClientRequestAdapter(auth, httpClient: analyticsClient)
         {
             BaseUrl = config.AnalyticsBaseUrl
         };

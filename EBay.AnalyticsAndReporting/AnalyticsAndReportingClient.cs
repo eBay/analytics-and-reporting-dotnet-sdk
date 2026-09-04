@@ -22,48 +22,54 @@ namespace EBay.AnalyticsAndReporting;
 
 public partial class AnalyticsAndReportingClient : IDisposable
 {
-    private readonly HttpClient _httpClient;
-    private readonly bool _ownsHttpClient;
+    // Named client keys used by ServiceCollectionExtensions
+    internal const string AnalyticsClientName = "AnalyticsAndReportingClient.Analytics";
 
-    // DI constructor — caller manages HttpClient lifetime
-    internal AnalyticsAndReportingClient(AnalyticsAndReportingConfiguration config, HttpClient httpClient, ITokenContext tokenContext)
+    private readonly HttpClient[] _ownedClients;
+
+    /// <summary>
+    /// DI-friendly constructor: each HttpClient is a named client from IHttpClientFactory
+    /// with DiagnosticLoggingHandler and BaseAddress already configured.
+    /// </summary>
+    internal AnalyticsAndReportingClient(
+        AnalyticsAndReportingConfiguration config,
+        HttpClient analyticsClient,
+        ITokenContext tokenContext)
     {
-        ArgumentNullException.ThrowIfNull(config);
-        ArgumentNullException.ThrowIfNull(httpClient);
-        ArgumentNullException.ThrowIfNull(tokenContext);
-
-        _httpClient = httpClient;
-        _ownsHttpClient = false;
+        _ownedClients = [];
 
         var auth = new BaseBearerTokenAuthenticationProvider(new KiotaAuthProvider(config, tokenContext));
-        InitializeRestClients(auth, httpClient, config, tokenContext);
+
+        InitializeRestClients(auth, analyticsClient, config, tokenContext);
     }
 
-    // Standalone constructor — owns the HttpClient
+    /// <summary>
+    /// Standalone constructor for use outside DI (tests, scripts).
+    /// Creates its own HttpClients with DiagnosticLoggingHandler.
+    /// </summary>
     public AnalyticsAndReportingClient(AnalyticsAndReportingConfiguration config)
-        : this(config, BuildStandaloneHttpClient(config), new AsyncLocalTokenContext())
     {
-        _ownsHttpClient = true;
+        var tokenContext = new AsyncLocalTokenContext();
+        var auth = new BaseBearerTokenAuthenticationProvider(new KiotaAuthProvider(config, tokenContext));
+
+        var analyticsClient = BuildStandaloneHttpClient(config, config.AnalyticsBaseUrl);
+        _ownedClients = [analyticsClient];
+
+        InitializeRestClients(auth, analyticsClient, config, tokenContext);
     }
 
-    private static HttpClient BuildStandaloneHttpClient(AnalyticsAndReportingConfiguration config)
+    private static HttpClient BuildStandaloneHttpClient(AnalyticsAndReportingConfiguration config, string baseUrl)
     {
         var handler = new DiagnosticLoggingHandler(config)
         {
             InnerHandler = new SocketsHttpHandler { PooledConnectionLifetime = TimeSpan.FromMinutes(2) }
         };
-        return new HttpClient(handler) { Timeout = config.HttpTimeout };
-    }
-
-    private static HttpClient BuildKiotaClient(string baseUrl, HttpClient httpClient)
-    {
-        httpClient.BaseAddress = new Uri(baseUrl);
-        return httpClient;
+        return new HttpClient(handler) { BaseAddress = new Uri(baseUrl), Timeout = config.HttpTimeout };
     }
 
     public void Dispose()
     {
-        if (_ownsHttpClient)
-            _httpClient.Dispose();
+        foreach (var client in _ownedClients)
+            client.Dispose();
     }
 }

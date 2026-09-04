@@ -28,7 +28,7 @@ public sealed class AnalyticsAndReportingConfiguration
     public string AnalyticsBaseUrl
     {
         get => _analyticsBaseUrl;
-        set => _analyticsBaseUrl = RequireHttps(value, nameof(AnalyticsBaseUrl));
+        set => _analyticsBaseUrl = RequireHttps(value);
     }
 
     /// <summary>
@@ -54,10 +54,10 @@ public sealed class AnalyticsAndReportingConfiguration
 
     internal IEnumerable<string> AllowedHosts => ["api.ebay.com", "apim.ebay.com", "apiz.ebay.com"];
 
-    private static string RequireHttps(string value, string paramName)
+    private static string RequireHttps(string value)
     {
         if (!value.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
-            throw new ArgumentException("Only HTTPS endpoints are allowed.", paramName);
+            throw new ArgumentException($"URL must use HTTPS: '{value}'", nameof(value));
         return value;
     }
 }

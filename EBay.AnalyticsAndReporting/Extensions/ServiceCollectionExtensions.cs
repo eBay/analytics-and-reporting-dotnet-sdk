@@ -27,22 +27,23 @@ public static class ServiceCollectionExtensions
         this IServiceCollection services,
         AnalyticsAndReportingConfiguration config)
     {
-        ArgumentNullException.ThrowIfNull(services);
-        ArgumentNullException.ThrowIfNull(config);
-
         services.AddSingleton(config);
         services.AddSingleton<ITokenContext, AsyncLocalTokenContext>();
-        services.AddHttpClient(nameof(AnalyticsAndReportingClient))
-            .ConfigureHttpClient(c => c.Timeout = config.HttpTimeout)
+
+        services.AddHttpClient(AnalyticsAndReportingClient.AnalyticsClientName,
+                (sp, c) => c.BaseAddress = new Uri(sp.GetRequiredService<AnalyticsAndReportingConfiguration>().AnalyticsBaseUrl))
+            .ConfigureHttpClient((sp, c) => c.Timeout = sp.GetRequiredService<AnalyticsAndReportingConfiguration>().HttpTimeout)
             .AddHttpMessageHandler(sp => new DiagnosticLoggingHandler(sp.GetRequiredService<AnalyticsAndReportingConfiguration>()));
+
         services.AddScoped<AnalyticsAndReportingClient>(sp =>
         {
-            var httpClient = sp.GetRequiredService<IHttpClientFactory>().CreateClient(nameof(AnalyticsAndReportingClient));
-            var tokenContext = sp.GetRequiredService<ITokenContext>();
-            return new AnalyticsAndReportingClient(config, httpClient, tokenContext);
+            var factory = sp.GetRequiredService<IHttpClientFactory>();
+            return new AnalyticsAndReportingClient(
+                sp.GetRequiredService<AnalyticsAndReportingConfiguration>(),
+                factory.CreateClient(AnalyticsAndReportingClient.AnalyticsClientName),
+                sp.GetRequiredService<ITokenContext>());
         });
 
-        // Register sub-clients for direct injection
         services.AddScoped(sp => sp.GetRequiredService<AnalyticsAndReportingClient>().Analytics);
 
         return services;
