@@ -5,6 +5,7 @@
     <RootNamespace>EBay.AnalyticsAndReporting</RootNamespace>
     <AssemblyName>EBay.AnalyticsAndReporting</AssemblyName>
     <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>latest</LangVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Version>1.0.0</Version>
