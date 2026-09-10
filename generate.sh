@@ -29,16 +29,19 @@ echo ""
 echo "Regenerating REST client with Kiota..."
 dotnet kiota generate \
   -l csharp \
-  -d specs/sell_analytics_v1_oas3.yaml \
+  -d specs/openapi/analytics.yaml \
   -c AnalyticsApiClient \
   -n EBay.AnalyticsAndReporting.Generated.Analytics \
   -o EBay.AnalyticsAndReporting/Generated/Analytics \
   --ebc --co
 
+echo "Adding license headers to generated files..."
+./add-license-headers.sh ./EBay.AnalyticsAndReporting/Generated
+
 # Build the project
 echo ""
 echo "Building the SDK..."
-dotnet build EBay.AnalyticsAndReporting/EBay.AnalyticsAndReporting.csproj
+DOTNET_ROLL_FORWARD=LatestMajor dotnet build EBay.AnalyticsAndReporting/EBay.AnalyticsAndReporting.csproj
 
 echo ""
 echo "========================================="

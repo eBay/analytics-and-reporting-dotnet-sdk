@@ -208,7 +208,7 @@ When the OpenAPI spec changes:
 
 # Or manually:
 dotnet tool restore
-dotnet kiota generate -l csharp -d specs/sell_analytics_v1_oas3.yaml ...
+dotnet kiota generate -l csharp -d specs/openapi/analytics.yaml ...
 dotnet build EBay.AnalyticsAndReporting/EBay.AnalyticsAndReporting.csproj
 ```
 
