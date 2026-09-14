@@ -52,7 +52,7 @@ public sealed class AnalyticsAndReportingConfiguration
     /// <summary>Timeout applied to all HTTP requests. Defaults to 30 seconds.</summary>
     public TimeSpan HttpTimeout { get; init; } = TimeSpan.FromSeconds(30);
 
-    internal IEnumerable<string> AllowedHosts => ["api.ebay.com", "apim.ebay.com", "apiz.ebay.com"];
+    internal static IEnumerable<string> AllowedHosts => ["api.ebay.com", "apim.ebay.com", "apiz.ebay.com"];
 
     private static string RequireHttps(string value, string paramName)
     {
