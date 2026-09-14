@@ -16,17 +16,12 @@
 
 set -euo pipefail
 
-echo "========================================="
-echo "Analytics and Reporting SDK - Regeneration"
-echo "========================================="
-
-# Restore dotnet tools
-echo "Restoring .NET tools..."
+echo "Restoring tools..."
 dotnet tool restore
 
-# Regenerate Kiota client
-echo ""
-echo "Regenerating REST client with Kiota..."
+echo "Regenerating REST clients via Kiota..."
+rm -rf ./EBay.AnalyticsAndReporting/Generated
+
 dotnet kiota generate \
   -l csharp \
   -d specs/openapi/analytics.yaml \
@@ -38,12 +33,7 @@ dotnet kiota generate \
 echo "Adding license headers to generated files..."
 ./add-license-headers.sh ./EBay.AnalyticsAndReporting/Generated
 
-# Build the project
-echo ""
-echo "Building the SDK..."
+echo "Building (triggers StrawberryShake GraphQL codegen)..."
 DOTNET_ROLL_FORWARD=LatestMajor dotnet build EBay.AnalyticsAndReporting/EBay.AnalyticsAndReporting.csproj
 
-echo ""
-echo "========================================="
-echo "Done! SDK regenerated successfully."
-echo "========================================="
+echo "Done."

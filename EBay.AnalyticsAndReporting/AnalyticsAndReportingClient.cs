@@ -12,75 +12,94 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
-using System;
-using System.Net.Http;
 using EBay.AnalyticsAndReporting.Clients.Rest;
 using EBay.AnalyticsAndReporting.Configuration;
 using EBay.AnalyticsAndReporting.Generated.Analytics;
 using Microsoft.Kiota.Abstractions.Authentication;
 using Microsoft.Kiota.Http.HttpClientLibrary;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
 
 namespace EBay.AnalyticsAndReporting;
 
-public sealed class AnalyticsAndReportingClient : IDisposable
+public class AnalyticsAndReportingClient : IDisposable
 {
-    public AnalyticsRestSubClient Analytics { get; }
+    internal const string AnalyticsClientName = "AnalyticsAndReportingClient.Analytics";
 
-    private readonly HttpClient _httpClient;
-    private readonly bool _ownsHttpClient;
+    private readonly HttpClient[] _ownedClients;
 
-    // DI constructor — caller manages HttpClient lifetime
-    internal AnalyticsAndReportingClient(AnalyticsAndReportingConfiguration config, HttpClient httpClient, ITokenContext tokenContext)
+    public AnalyticsClient Analytics { get; private set; } = null!;
+
+    /// <summary>
+    /// DI-friendly constructor. Named HttpClients come from <see cref="IHttpClientFactory"/>.
+    /// </summary>
+    internal AnalyticsAndReportingClient(
+        AnalyticsAndReportingConfiguration config,
+        IHttpClientFactory factory,
+        ITokenContext tokenContext)
     {
-        ArgumentNullException.ThrowIfNull(config);
-        ArgumentNullException.ThrowIfNull(httpClient);
-        ArgumentNullException.ThrowIfNull(tokenContext);
-
-        _httpClient = httpClient;
-        _ownsHttpClient = false;
-
-        Analytics = BuildAnalyticsSubClient(config, tokenContext);
+        _ownedClients = [];
+        var auth = new BaseBearerTokenAuthenticationProvider(new KiotaAuthProvider(config, tokenContext));
+        InitializeRestClients(auth, config, tokenContext, endpoint => factory.CreateClient(endpoint.HttpClientName));
     }
 
-    // Standalone constructor — owns the HttpClient
+    /// <summary>
+    /// Standalone constructor for use outside DI (tests, scripts).
+    /// Creates its own HttpClients with DiagnosticLoggingHandler.
+    /// </summary>
     public AnalyticsAndReportingClient(AnalyticsAndReportingConfiguration config)
-        : this(config, BuildStandaloneHttpClient(config), new AsyncLocalTokenContext())
     {
-        _ownsHttpClient = true;
+        var tokenContext = new AsyncLocalTokenContext();
+        var auth = new BaseBearerTokenAuthenticationProvider(new KiotaAuthProvider(config, tokenContext));
+        var owned = new List<HttpClient>();
+        InitializeRestClients(auth, config, tokenContext, endpoint =>
+        {
+            var client = BuildStandaloneHttpClient(config, endpoint.BaseUrl);
+            owned.Add(client);
+            return client;
+        });
+        _ownedClients = [.. owned];
     }
 
-    private static HttpClient BuildStandaloneHttpClient(AnalyticsAndReportingConfiguration config)
+    private static HttpClient BuildStandaloneHttpClient(AnalyticsAndReportingConfiguration config, string baseUrl)
     {
         var handler = new DiagnosticLoggingHandler(config)
         {
             InnerHandler = new SocketsHttpHandler { PooledConnectionLifetime = TimeSpan.FromMinutes(2) }
         };
-        return new HttpClient(handler) { Timeout = config.HttpTimeout };
+        return new HttpClient(handler) { BaseAddress = new Uri(baseUrl), Timeout = config.HttpTimeout };
     }
 
-    private AnalyticsRestSubClient BuildAnalyticsSubClient(AnalyticsAndReportingConfiguration config, ITokenContext tokenContext)
-    {
-        var authProvider = new KiotaAuthProvider(config, tokenContext);
-        var kiotaClient = BuildKiotaClient(config.AnalyticsBaseUrl, _httpClient);
-        var adapter = new HttpClientRequestAdapter(
-            new BaseBearerTokenAuthenticationProvider(authProvider),
-            httpClient: kiotaClient)
-        {
-            BaseUrl = config.AnalyticsBaseUrl
-        };
-        return new AnalyticsRestSubClient(new AnalyticsApiClient(adapter), config, tokenContext);
-    }
+    internal static IReadOnlyList<(string ApiId, string HttpClientName)> RestEndpointNames { get; } =
+    [
+        ("analytics", AnalyticsClientName)
+    ];
 
-    private static HttpClient BuildKiotaClient(string baseUrl, HttpClient httpClient)
+    internal static IReadOnlyList<RestEndpoint> RestEndpoints(AnalyticsAndReportingConfiguration config) =>
+        [.. RestEndpointNames.Select(name => new RestEndpoint(name.ApiId, name.HttpClientName, config.RestBaseUrl(name.ApiId)))];
+
+    private void InitializeRestClients(
+        IAuthenticationProvider auth,
+        AnalyticsAndReportingConfiguration config,
+        ITokenContext tokenContext,
+        RestHttpClientProvider httpClientFor)
     {
-        httpClient.BaseAddress = new Uri(baseUrl);
-        return httpClient;
+        var endpoints = RestEndpoints(config);
+        var analyticsAdapter = new HttpClientRequestAdapter(auth, httpClient: httpClientFor(endpoints.First(endpoint => endpoint.ApiId == "analytics")));
+        Analytics = new AnalyticsClient(new AnalyticsApiClient(analyticsAdapter), config, tokenContext, analyticsAdapter);
     }
 
     public void Dispose()
     {
-        if (_ownsHttpClient)
-            _httpClient.Dispose();
+        foreach (var client in _ownedClients)
+        {
+            client.Dispose();
+        }
+        GC.SuppressFinalize(this);
     }
 }
+
+internal sealed record RestEndpoint(string ApiId, string HttpClientName, string BaseUrl);
+
+internal delegate HttpClient RestHttpClientProvider(RestEndpoint endpoint);
