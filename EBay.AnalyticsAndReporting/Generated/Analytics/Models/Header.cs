@@ -22,7 +22,7 @@ using System;
 namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
 {
     /// <summary>
-    /// Type that defines the headers for the dimension keys and metrics returned in the report.
+    /// This type defines the headers for the dimension keys and metrics returned in the report.
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public partial class Header : IAdditionalDataHolder, IParsable

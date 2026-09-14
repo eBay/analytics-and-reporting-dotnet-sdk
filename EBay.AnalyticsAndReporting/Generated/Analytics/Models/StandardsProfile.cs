@@ -29,7 +29,7 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
     {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
-        /// <summary>A complex type that describes a program cycle.</summary>
+        /// <summary>A complex type that specifies the profile&apos;s evaluation cycle (&lt;code&gt;CURRENT&lt;/code&gt; or &lt;code&gt;PROJECTED&lt;/code&gt;), the date the evaluation was calculated, and  the month to which the evaluation pertains.  &lt;br&gt;&lt;br&gt;Each program has at least one cycle, but a program can include both cycle types.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Cycle? Cycle { get; set; }
@@ -50,27 +50,15 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
         /// <summary>A list of the metrics upon which a seller&apos;s profile is evaluated.  &lt;br&gt;&lt;br&gt;Each program&apos;s applicable metrics and requirements are listed at &lt;a href=&quot;http://www.sps.ebay.com/sd/sdrequirements&quot; target=&quot;_blank&quot;&gt;eBay Top Rated seller program standards&lt;/a&gt;.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Metric>? Metrics { get; set; }
+        public List<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.SspMetric>? Metrics { get; set; }
 #nullable restore
 #else
-        public List<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Metric> Metrics { get; set; }
+        public List<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.SspMetric> Metrics { get; set; }
 #endif
-        /// <summary>Indicates the program used to generate the profile data. Values can be &lt;code&gt;PROGRAM_DE&lt;/code&gt;, &lt;code&gt;PROGRAM_UK&lt;/code&gt;, &lt;code&gt;PROGRAM_US&lt;/code&gt;, or &lt;code&gt;PROGRAM_GLOBAL&lt;/code&gt;. For implementation help, refer to &lt;a href=&apos;https://developer.ebay.com/api-docs/sell/analytics/types/ssp:ProgramEnum&apos;&gt;eBay API documentation&lt;/a&gt;</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? Program { get; set; }
-#nullable restore
-#else
-        public string Program { get; set; }
-#endif
-        /// <summary>The overall standards level of the seller, one of &lt;code&gt;TOP_RATED&lt;/code&gt;, &lt;code&gt;ABOVE_STANDARD&lt;/code&gt;, or &lt;code&gt;BELOW_STANDARD&lt;/code&gt;. For implementation help, refer to &lt;a href=&apos;https://developer.ebay.com/api-docs/sell/analytics/types/ssp:StandardsLevelEnum&apos;&gt;eBay API documentation&lt;/a&gt;</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? StandardsLevel { get; set; }
-#nullable restore
-#else
-        public string StandardsLevel { get; set; }
-#endif
+        /// <summary>Indicates the program used to generate the profile data. Values can be &lt;code&gt;PROGRAM_DE&lt;/code&gt;, &lt;code&gt;PROGRAM_UK&lt;/code&gt;, &lt;code&gt;PROGRAM_US&lt;/code&gt;, or &lt;code&gt;PROGRAM_GLOBAL&lt;/code&gt;.</summary>
+        public global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.ProgramEnum? Program { get; set; }
+        /// <summary>The overall standards level of the seller, one of &lt;code&gt;TOP_RATED&lt;/code&gt;, &lt;code&gt;ABOVE_STANDARD&lt;/code&gt;, or &lt;code&gt;BELOW_STANDARD&lt;/code&gt;.</summary>
+        public global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.StandardsLevelEnum? StandardsLevel { get; set; }
         /// <summary>
         /// Instantiates a new <see cref="global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.StandardsProfile"/> and sets the default values.
         /// </summary>
@@ -99,9 +87,9 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
                 { "cycle", n => { Cycle = n.GetObjectValue<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Cycle>(global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Cycle.CreateFromDiscriminatorValue); } },
                 { "defaultProgram", n => { DefaultProgram = n.GetBoolValue(); } },
                 { "evaluationReason", n => { EvaluationReason = n.GetStringValue(); } },
-                { "metrics", n => { Metrics = n.GetCollectionOfObjectValues<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Metric>(global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Metric.CreateFromDiscriminatorValue)?.AsList(); } },
-                { "program", n => { Program = n.GetStringValue(); } },
-                { "standardsLevel", n => { StandardsLevel = n.GetStringValue(); } },
+                { "metrics", n => { Metrics = n.GetCollectionOfObjectValues<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.SspMetric>(global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.SspMetric.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "program", n => { Program = n.GetEnumValue<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.ProgramEnum>(); } },
+                { "standardsLevel", n => { StandardsLevel = n.GetEnumValue<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.StandardsLevelEnum>(); } },
             };
         }
         /// <summary>
@@ -114,9 +102,9 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
             writer.WriteObjectValue<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Cycle>("cycle", Cycle);
             writer.WriteBoolValue("defaultProgram", DefaultProgram);
             writer.WriteStringValue("evaluationReason", EvaluationReason);
-            writer.WriteCollectionOfObjectValues<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Metric>("metrics", Metrics);
-            writer.WriteStringValue("program", Program);
-            writer.WriteStringValue("standardsLevel", StandardsLevel);
+            writer.WriteCollectionOfObjectValues<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.SspMetric>("metrics", Metrics);
+            writer.WriteEnumValue<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.ProgramEnum>("program", Program);
+            writer.WriteEnumValue<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.StandardsLevelEnum>("standardsLevel", StandardsLevel);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

@@ -33,7 +33,7 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Seller_standards_profil
     public partial class Seller_standards_profileRequestBuilder : BaseRequestBuilder
     {
         /// <summary>Gets an item from the EBay.AnalyticsAndReporting.Generated.Analytics.seller_standards_profile.item collection</summary>
-        /// <param name="position">This path parameter is used to specify the seller standards program for which metrics and metadata will be retrieved. &lt;br&gt;&lt;br&gt;See &lt;a href=&quot;/api-docs/sell/analytics/types/ssp:ProgramEnum&quot; target=&quot;_blank&quot;&gt;ProgramEnum&lt;/a&gt; for a list of supported values.</param>
+        /// <param name="position">This path parameter is used to specify the seller standards program for which metrics and metadata will be retrieved. &lt;br&gt;&lt;br&gt;See &lt;a href=&quot;/develop/api/sell/analytics_api#sell-analytics_api-seller_standards_profile-getsellerstandardsprofile.programenum&quot;&gt;ProgramEnum&lt;/a&gt; for a list of supported values.</param>
         /// <returns>A <see cref="global::EBay.AnalyticsAndReporting.Generated.Analytics.Seller_standards_profile.Item.WithProgramItemRequestBuilder"/></returns>
         public global::EBay.AnalyticsAndReporting.Generated.Analytics.Seller_standards_profile.Item.WithProgramItemRequestBuilder this[string position]
         {
@@ -61,11 +61,13 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Seller_standards_profil
         {
         }
         /// <summary>
-        /// This call retrieves all the standards profiles for the associated seller.  &lt;br&gt;&lt;br&gt;A &lt;i&gt;standards profile &lt;/i&gt; is a set of eBay seller metrics and the seller&apos;s associated compliance values (either &lt;code&gt;TOP_RATED&lt;/code&gt;, &lt;code&gt;ABOVE_STANDARD&lt;/code&gt;, or &lt;code&gt;BELOW_STANDARD&lt;/code&gt;).  &lt;br&gt;&lt;br&gt;A seller&apos;s multiple profiles are distinguished by two criteria, a &quot;program&quot; and a &quot;cycle.&quot; A profile&apos;s &lt;i&gt;program &lt;/i&gt; is one of three regions where the seller may have done business, or &lt;code&gt;PROGRAM_GLOBAL&lt;/code&gt; to indicate all marketplaces where the seller has done business. The &lt;i&gt;cycle&lt;/i&gt; value specifies whether the standards compliance values were determined at the last official eBay evaluation or at the time of the request.
+        /// This call retrieves all the standards profiles for the associated seller.  &lt;br&gt;&lt;br&gt;A &lt;i&gt;standards profile &lt;/i&gt; is a set of eBay seller metrics and the seller&apos;s associated compliance values (either &lt;code&gt;TOP_RATED&lt;/code&gt;, &lt;code&gt;ABOVE_STANDARD&lt;/code&gt;, or &lt;code&gt;BELOW_STANDARD&lt;/code&gt;).  &lt;br&gt;&lt;br&gt;A seller&apos;s multiple profiles are distinguished by two criteria, a &quot;program&quot; and a &quot;cycle.&quot; A profile&apos;s &lt;i&gt;program &lt;/i&gt; is one of three regions where the seller may have done business, or &lt;code&gt;PROGRAM_GLOBAL&lt;/code&gt; to indicate all marketplaces where the seller has done business. The &lt;i&gt;cycle&lt;/i&gt; value specifies whether the standards compliance values were determined at the last official eBay evaluation or at the time of the request.&lt;br&gt;&lt;br&gt;For more information on the interpreting the response payload of this method, see &lt;a href=&quot;/api-docs/sell/static/performance/seller-standards.html&quot; target=&quot;_blank&quot;&gt;Seller standards profile&lt;/a&gt;.
         /// </summary>
         /// <returns>A <see cref="global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.FindSellerStandardsProfilesResponse"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+        /// <exception cref="global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Error">When receiving a 400 status code</exception>
+        /// <exception cref="global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.ErrorMessageV3">When receiving a 500 status code</exception>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public async Task<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.FindSellerStandardsProfilesResponse?> GetAsync(Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
@@ -76,10 +78,15 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Seller_standards_profil
         {
 #endif
             var requestInfo = ToGetRequestInformation(requestConfiguration);
-            return await RequestAdapter.SendAsync<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.FindSellerStandardsProfilesResponse>(requestInfo, global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.FindSellerStandardsProfilesResponse.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+            var errorMapping = new Dictionary<string, ParsableFactory<IParsable>>
+            {
+                { "400", global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Error.CreateFromDiscriminatorValue },
+                { "500", global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.ErrorMessageV3.CreateFromDiscriminatorValue },
+            };
+            return await RequestAdapter.SendAsync<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.FindSellerStandardsProfilesResponse>(requestInfo, global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.FindSellerStandardsProfilesResponse.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// This call retrieves all the standards profiles for the associated seller.  &lt;br&gt;&lt;br&gt;A &lt;i&gt;standards profile &lt;/i&gt; is a set of eBay seller metrics and the seller&apos;s associated compliance values (either &lt;code&gt;TOP_RATED&lt;/code&gt;, &lt;code&gt;ABOVE_STANDARD&lt;/code&gt;, or &lt;code&gt;BELOW_STANDARD&lt;/code&gt;).  &lt;br&gt;&lt;br&gt;A seller&apos;s multiple profiles are distinguished by two criteria, a &quot;program&quot; and a &quot;cycle.&quot; A profile&apos;s &lt;i&gt;program &lt;/i&gt; is one of three regions where the seller may have done business, or &lt;code&gt;PROGRAM_GLOBAL&lt;/code&gt; to indicate all marketplaces where the seller has done business. The &lt;i&gt;cycle&lt;/i&gt; value specifies whether the standards compliance values were determined at the last official eBay evaluation or at the time of the request.
+        /// This call retrieves all the standards profiles for the associated seller.  &lt;br&gt;&lt;br&gt;A &lt;i&gt;standards profile &lt;/i&gt; is a set of eBay seller metrics and the seller&apos;s associated compliance values (either &lt;code&gt;TOP_RATED&lt;/code&gt;, &lt;code&gt;ABOVE_STANDARD&lt;/code&gt;, or &lt;code&gt;BELOW_STANDARD&lt;/code&gt;).  &lt;br&gt;&lt;br&gt;A seller&apos;s multiple profiles are distinguished by two criteria, a &quot;program&quot; and a &quot;cycle.&quot; A profile&apos;s &lt;i&gt;program &lt;/i&gt; is one of three regions where the seller may have done business, or &lt;code&gt;PROGRAM_GLOBAL&lt;/code&gt; to indicate all marketplaces where the seller has done business. The &lt;i&gt;cycle&lt;/i&gt; value specifies whether the standards compliance values were determined at the last official eBay evaluation or at the time of the request.&lt;br&gt;&lt;br&gt;For more information on the interpreting the response payload of this method, see &lt;a href=&quot;/api-docs/sell/static/performance/seller-standards.html&quot; target=&quot;_blank&quot;&gt;Seller standards profile&lt;/a&gt;.
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>

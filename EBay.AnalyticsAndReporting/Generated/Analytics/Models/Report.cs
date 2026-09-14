@@ -37,7 +37,7 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
 #else
         public List<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Metadata> DimensionMetadata { get; set; }
 #endif
-        /// <summary>  &lt;br&gt;&lt;br&gt;The time stamp is formatted as an &lt;a href=&quot;https://www.iso.org/iso-8601-date-and-time-format.html&quot; target=&quot;_blank&quot;&gt;ISO 8601&lt;/a&gt; string, which is based on the 24-hour Universal Coordinated Time (UTC) clock.  &lt;br&gt;&lt;br&gt;If you specify an end date that is beyond the &lt;a href=&quot;#response.lastUpdatedDate&quot;&gt;lastUpdatedDate&lt;/a&gt; value, eBay returns a report that contains data only up to the lastUpdateDate date. &lt;br&gt;&lt;br&gt;&lt;b&gt;Format:&lt;/b&gt; &lt;code&gt;[YYYY]-[MM]-[DD]T[hh]:[mm]:[ss].[sss]Z&lt;/code&gt; &lt;br&gt;&lt;b&gt;Example:&lt;/b&gt; &lt;code&gt;2018-08-20T07:09:00.000Z&lt;/code&gt;</summary>
+        /// <summary>The time stamp is formatted as an &lt;a href=&quot;https://www.iso.org/iso-8601-date-and-time-format.html&quot; target=&quot;_blank&quot;&gt;ISO 8601&lt;/a&gt; string, which is based on the 24-hour Universal Coordinated Time (UTC) clock.  &lt;br&gt;&lt;br&gt;If you specify an end date that is beyond the &lt;b&gt;lastUpdatedDate&lt;/b&gt; value, eBay returns a report that contains data only up to the lastUpdateDate date. &lt;br&gt;&lt;br&gt;&lt;b&gt;Format:&lt;/b&gt; &lt;code&gt;[YYYY]-[MM]-[DD]T[hh]:[mm]:[ss].[sss]Z&lt;/code&gt; &lt;br&gt;&lt;b&gt;Example:&lt;/b&gt; &lt;code&gt;2018-08-20T07:09:00.000Z&lt;/code&gt;</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? EndDate { get; set; }
@@ -45,7 +45,7 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
 #else
         public string EndDate { get; set; }
 #endif
-        /// <summary>Type that defines the headers for the dimension keys and metrics returned in the report.</summary>
+        /// <summary>A complex type containing the header for the report.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Header? Header { get; set; }
@@ -80,10 +80,10 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
         /// <summary>An array of any process errors or warnings that were generated during the processing of the call processing.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Error>? Warnings { get; set; }
+        public List<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.ErrorDetailV3>? Warnings { get; set; }
 #nullable restore
 #else
-        public List<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Error> Warnings { get; set; }
+        public List<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.ErrorDetailV3> Warnings { get; set; }
 #endif
         /// <summary>
         /// Instantiates a new <see cref="global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Report"/> and sets the default values.
@@ -116,7 +116,7 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
                 { "lastUpdatedDate", n => { LastUpdatedDate = n.GetStringValue(); } },
                 { "records", n => { Records = n.GetCollectionOfObjectValues<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Record>(global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Record.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "startDate", n => { StartDate = n.GetStringValue(); } },
-                { "warnings", n => { Warnings = n.GetCollectionOfObjectValues<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Error>(global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Error.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "warnings", n => { Warnings = n.GetCollectionOfObjectValues<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.ErrorDetailV3>(global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.ErrorDetailV3.CreateFromDiscriminatorValue)?.AsList(); } },
             };
         }
         /// <summary>
@@ -132,7 +132,7 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
             writer.WriteStringValue("lastUpdatedDate", LastUpdatedDate);
             writer.WriteCollectionOfObjectValues<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Record>("records", Records);
             writer.WriteStringValue("startDate", StartDate);
-            writer.WriteCollectionOfObjectValues<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Error>("warnings", Warnings);
+            writer.WriteCollectionOfObjectValues<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.ErrorDetailV3>("warnings", Warnings);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

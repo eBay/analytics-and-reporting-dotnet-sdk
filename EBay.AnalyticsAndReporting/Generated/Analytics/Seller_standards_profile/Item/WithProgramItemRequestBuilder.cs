@@ -30,7 +30,7 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Seller_standards_profil
     public partial class WithProgramItemRequestBuilder : BaseRequestBuilder
     {
         /// <summary>Gets an item from the EBay.AnalyticsAndReporting.Generated.Analytics.seller_standards_profile.item.item collection</summary>
-        /// <param name="position">This path parameter is used to specify the cycle for which metrics and metadata will be retrieved.&lt;br&gt;&lt;br&gt;See &lt;a href=&quot;/api-docs/sell/analytics/types/ssp:CycleTypeEnum&quot; target=&quot;_blank&quot;&gt;CycleTypeEnum&lt;/a&gt; for a list of supported values.</param>
+        /// <param name="position">This path parameter is used to specify the cycle for which metrics and metadata will be retrieved.&lt;br&gt;&lt;br&gt;See &lt;a href=&quot;/develop/api/sell/analytics_api#sell-analytics_api-seller_standards_profile-getsellerstandardsprofile.cycletypeenum&quot;&gt;CycleTypeEnum&lt;/a&gt; for a list of supported values.</param>
         /// <returns>A <see cref="global::EBay.AnalyticsAndReporting.Generated.Analytics.Seller_standards_profile.Item.Item.WithCycleItemRequestBuilder"/></returns>
         public global::EBay.AnalyticsAndReporting.Generated.Analytics.Seller_standards_profile.Item.Item.WithCycleItemRequestBuilder this[string position]
         {

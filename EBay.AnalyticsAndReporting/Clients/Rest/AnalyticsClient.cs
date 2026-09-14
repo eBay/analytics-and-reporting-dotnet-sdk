@@ -35,13 +35,7 @@ public sealed class AnalyticsClient
     }
 
     /// <summary>
-    /// Use this method to retrieve a seller's performance and rating for the customer service metric.
-    /// Control the response from the <b>getCustomerServiceMetric</b> method using the following path and query parameters:
-    /// - <b>customer_service_metric_type</b> controls the type of customer service transactions evaluated for the metric rating.
-    /// - <b>evaluation_type</b> controls the period you want to review.
-    /// - <b>evaluation_marketplace_id</b> specifies the target marketplace for the evaluation.
-    /// Currently, metric data is returned for only peer benchmarking. For details on the workings of peer benchmarking, see <see href="https://www.ebay.com/help/policies/selling-policies/seller-performance-policy/service-metrics-policy?id=4769">Service metrics policy</see>.
-    /// For details on using and understanding the response from this method, see <see href="/api-docs/sell/static/performance/customer-service-metric.html">Interpreting customer service metric ratings</see>.
+    /// Retrieves the seller's customer service performance for the specified metric type and eBay marketplace.
     /// </summary>
     public Task<GetCustomerServiceMetricResponse?> GetCustomerServiceMetricAsync(
         string customerServiceMetricType,
@@ -63,6 +57,7 @@ public sealed class AnalyticsClient
     /// This call retrieves all the standards profiles for the associated seller.
     /// A <i>standards profile </i> is a set of eBay seller metrics and the seller's associated compliance values (either <c>TOP_RATED</c>, <c>ABOVE_STANDARD</c>, or <c>BELOW_STANDARD</c>).
     /// A seller's multiple profiles are distinguished by two criteria, a "program" and a "cycle." A profile's <i>program </i> is one of three regions where the seller may have done business, or <c>PROGRAM_GLOBAL</c> to indicate all marketplaces where the seller has done business. The <i>cycle</i> value specifies whether the standards compliance values were determined at the last official eBay evaluation or at the time of the request.
+    /// For more information on the interpreting the response payload of this method, see <see href="/api-docs/sell/static/performance/seller-standards.html">Seller standards profile</see>.
     /// </summary>
     public Task<FindSellerStandardsProfilesResponse?> FindSellerStandardsProfilesAsync(
         string? accessToken = null,
@@ -80,6 +75,7 @@ public sealed class AnalyticsClient
     /// This call retrieves a single standards profile for the associated seller.
     /// A <i>standards profile </i> is a set of eBay seller metrics and the seller's associated compliance values (either <c>TOP_RATED</c>, <c>ABOVE_STANDARD</c>, or <c>BELOW_STANDARD</c>).
     /// A seller can have multiple profiles distinguished by two criteria, a "program" and a "cycle." A profile's <i>program </i> is one of three regions where the seller may have done business, or <c>PROGRAM_GLOBAL</c> to indicate all marketplaces where the seller has done business. The <i>cycle</i> value specifies whether the standards compliance values were determined at the last official eBay evaluation (<c>CURRENT</c>) or at the time of the request (<c>PROJECTED</c>). Both cycle and a program values are required URI parameters for this method.
+    /// For more information on the interpreting the response payload of this method, see <see href="/api-docs/sell/static/performance/seller-standards.html">Seller standards profile</see>.
     /// </summary>
     public Task<StandardsProfile?> GetSellerStandardsProfileAsync(
         string cycle,
@@ -101,9 +97,9 @@ public sealed class AnalyticsClient
     /// For more information, see <see href="/api-docs/sell/static/performance/traffic-report.html">Traffic report details</see>
     /// </summary>
     public Task<Report?> GetTrafficReportAsync(
-        string? dimension = null,
-        string? filter = null,
-        string? metric = null,
+        string dimension,
+        string filter,
+        string metric,
         string? sort = null,
         string? accessToken = null,
         RequestOptions? requestOptions = null,
@@ -113,18 +109,9 @@ public sealed class AnalyticsClient
             accessToken,
             () => _kiota.Traffic_report.GetAsync(cfg =>
         {
-            if (dimension is not null)
-            {
-                cfg.QueryParameters.Dimension = dimension;
-            }
-            if (filter is not null)
-            {
-                cfg.QueryParameters.Filter = filter;
-            }
-            if (metric is not null)
-            {
-                cfg.QueryParameters.Metric = metric;
-            }
+            cfg.QueryParameters.Dimension = dimension;
+            cfg.QueryParameters.Filter = filter;
+            cfg.QueryParameters.Metric = metric;
             if (sort is not null)
             {
                 cfg.QueryParameters.Sort = sort;

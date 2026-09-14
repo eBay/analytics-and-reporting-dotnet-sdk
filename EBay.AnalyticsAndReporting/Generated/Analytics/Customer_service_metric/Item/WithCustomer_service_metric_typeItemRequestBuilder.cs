@@ -30,7 +30,7 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Customer_service_metric
     public partial class WithCustomer_service_metric_typeItemRequestBuilder : BaseRequestBuilder
     {
         /// <summary>Gets an item from the EBay.AnalyticsAndReporting.Generated.Analytics.customer_service_metric.item.item collection</summary>
-        /// <param name="position">Use this path parameter to specify the evaluation period to use for the performance metrics. See &lt;a href=&quot;/api-docs/sell/analytics/types/api:EvaluationTypeEnum&quot; target=&quot;_blank&quot;&gt; EvaluationTypeEnum&lt;/a&gt; for more information on the supported values.</param>
+        /// <param name="position">Use this path parameter to specify the evaluation period to use for the performance metrics. See &lt;a href=&quot;/develop/api/sell/analytics_api#sell-analytics_api-customer_service_metric-getcustomerservicemetric.evaluationtypeenum&quot;&gt; EvaluationTypeEnum&lt;/a&gt; for more information on the supported values.</param>
         /// <returns>A <see cref="global::EBay.AnalyticsAndReporting.Generated.Analytics.Customer_service_metric.Item.Item.WithEvaluation_typeItemRequestBuilder"/></returns>
         public global::EBay.AnalyticsAndReporting.Generated.Analytics.Customer_service_metric.Item.Item.WithEvaluation_typeItemRequestBuilder this[string position]
         {

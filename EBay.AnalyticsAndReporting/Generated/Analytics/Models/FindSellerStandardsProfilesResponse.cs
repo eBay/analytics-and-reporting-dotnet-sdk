@@ -22,7 +22,7 @@ using System;
 namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
 {
     /// <summary>
-    /// The response container for a list of seller profiles.
+    /// This type returns a list of seller profiles.
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public partial class FindSellerStandardsProfilesResponse : IAdditionalDataHolder, IParsable

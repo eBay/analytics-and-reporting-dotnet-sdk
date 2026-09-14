@@ -29,23 +29,11 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
     {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
-        /// <summary>If this field is present, it indicates that the rating given to the seller was &quot;adjusted&quot; for one reason or another.  &lt;br&gt;&lt;br&gt;If eBay determines that the normal rating of a seller is impacted by circumstances beyond their control, they can issue an override to adjust the rating given to the seller. For implementation help, refer to &lt;a href=&apos;https://developer.ebay.com/api-docs/sell/analytics/types/api:RatingAdjustmentTypeEnum&apos;&gt;eBay API documentation&lt;/a&gt;</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? Adjustment { get; set; }
-#nullable restore
-#else
-        public string Adjustment { get; set; }
-#endif
-        /// <summary>This field returns the &quot;basis&quot; by which the benchmark is calculated for the customer service metric type. &lt;br&gt;&lt;br&gt;Currently, the only supported basis is &lt;code&gt;PEER_BENCHMARK&lt;/code&gt;. For implementation help, refer to &lt;a href=&apos;https://developer.ebay.com/api-docs/sell/analytics/types/api:BenchmarkTypeEnum&apos;&gt;eBay API documentation&lt;/a&gt;</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? Basis { get; set; }
-#nullable restore
-#else
-        public string Basis { get; set; }
-#endif
-        /// <summary>This complex type defines the fields that comprise the benchmark against which the seller&apos;s performance is compared. The comparison determines the seller&apos;s rating for the metric.</summary>
+        /// <summary>If this field is present, it indicates that the rating given to the seller was &quot;adjusted&quot; for one reason or another.  &lt;br&gt;&lt;br&gt;If eBay determines that the normal rating of a seller is impacted by circumstances beyond their control, they can issue an override to adjust the rating given to the seller.</summary>
+        public global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.RatingAdjustmentTypeEnum? Adjustment { get; set; }
+        /// <summary>This field returns the &quot;basis&quot; by which the benchmark is calculated for the customer service metric type. &lt;br&gt;&lt;br&gt;Currently, the only supported basis is &lt;code&gt;PEER_BENCHMARK&lt;/code&gt;.</summary>
+        public global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.BenchmarkTypeEnum? Basis { get; set; }
+        /// <summary>This field contains the benchmark data.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.BenchmarkMetadata? Metadata { get; set; }
@@ -53,14 +41,8 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
 #else
         public global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.BenchmarkMetadata Metadata { get; set; }
 #endif
-        /// <summary>This field returns seller&apos;s rating for the customer service metric.  &lt;br&gt;&lt;br&gt;The rating is set to a value that equals the relative deviation between the seller&apos;s metric value and the benchmark value for the customer service metric.  &lt;br&gt;&lt;br&gt;Deviation values range from &lt;code&gt;LOW&lt;/code&gt; to &lt;code&gt;VERY HIGH&lt;/code&gt;, and the lower the deviation, the better the seller rating. For implementation help, refer to &lt;a href=&apos;https://developer.ebay.com/api-docs/sell/analytics/types/api:RatingTypeEnum&apos;&gt;eBay API documentation&lt;/a&gt;</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? Rating { get; set; }
-#nullable restore
-#else
-        public string Rating { get; set; }
-#endif
+        /// <summary>This field returns seller&apos;s rating for the customer service metric.  &lt;br&gt;&lt;br&gt;The rating is set to a value that equals the relative deviation between the seller&apos;s metric value and the benchmark value for the customer service metric.  &lt;br&gt;&lt;br&gt;Deviation values range from &lt;code&gt;LOW&lt;/code&gt; to &lt;code&gt;VERY HIGH&lt;/code&gt;, and the lower the deviation, the better the seller rating.</summary>
+        public global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.RatingTypeEnum? Rating { get; set; }
         /// <summary>
         /// Instantiates a new <see cref="global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.MetricBenchmark"/> and sets the default values.
         /// </summary>
@@ -86,10 +68,10 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "adjustment", n => { Adjustment = n.GetStringValue(); } },
-                { "basis", n => { Basis = n.GetStringValue(); } },
+                { "adjustment", n => { Adjustment = n.GetEnumValue<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.RatingAdjustmentTypeEnum>(); } },
+                { "basis", n => { Basis = n.GetEnumValue<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.BenchmarkTypeEnum>(); } },
                 { "metadata", n => { Metadata = n.GetObjectValue<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.BenchmarkMetadata>(global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.BenchmarkMetadata.CreateFromDiscriminatorValue); } },
-                { "rating", n => { Rating = n.GetStringValue(); } },
+                { "rating", n => { Rating = n.GetEnumValue<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.RatingTypeEnum>(); } },
             };
         }
         /// <summary>
@@ -99,10 +81,10 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-            writer.WriteStringValue("adjustment", Adjustment);
-            writer.WriteStringValue("basis", Basis);
+            writer.WriteEnumValue<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.RatingAdjustmentTypeEnum>("adjustment", Adjustment);
+            writer.WriteEnumValue<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.BenchmarkTypeEnum>("basis", Basis);
             writer.WriteObjectValue<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.BenchmarkMetadata>("metadata", Metadata);
-            writer.WriteStringValue("rating", Rating);
+            writer.WriteEnumValue<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.RatingTypeEnum>("rating", Rating);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

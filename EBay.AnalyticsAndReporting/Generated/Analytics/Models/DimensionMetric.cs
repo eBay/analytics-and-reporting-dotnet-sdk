@@ -29,7 +29,7 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
     {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
-        /// <summary>The fields in this complex type define the dimension, or attributes, by which the associated customer service metric and benchmark data is measured.  &lt;br&gt;&lt;br&gt;The value of &lt;b&gt;dimensionKey&lt;/b&gt; gets set according to the configuration of the input request. The &lt;b&gt;name&lt;/b&gt; and &lt;b&gt;value&lt;/b&gt; pair further define dimension under the key.</summary>
+        /// <summary>This type defines the &quot;dimension,&quot; or attributes, against which the associated customer service metric values and benchmark ratings are based.  &lt;br&gt;&lt;br&gt;The &lt;b&gt;dimensionKey&lt;/b&gt; value is set according to the &lt;b&gt;customer_service_metric_type&lt;/b&gt; request parameter and the values in the associated &lt;b&gt;name&lt;/b&gt;/&lt;b&gt;value&lt;/b&gt; pairs relate to the &lt;b&gt;dimensionKey&lt;/b&gt; that&apos;s being used to calculate the benchmark rating.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Dimension? Dimension { get; set; }
@@ -40,10 +40,10 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
         /// <summary>This is a list of &lt;b&gt;Metric&lt;/b&gt; elements where each element contains data and information related to the transactions grouped by the associated &lt;b&gt;dimension&lt;/b&gt;.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Metric>? Metrics { get; set; }
+        public List<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.ApiMetric>? Metrics { get; set; }
 #nullable restore
 #else
-        public List<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Metric> Metrics { get; set; }
+        public List<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.ApiMetric> Metrics { get; set; }
 #endif
         /// <summary>
         /// Instantiates a new <see cref="global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.DimensionMetric"/> and sets the default values.
@@ -71,7 +71,7 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
             return new Dictionary<string, Action<IParseNode>>
             {
                 { "dimension", n => { Dimension = n.GetObjectValue<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Dimension>(global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Dimension.CreateFromDiscriminatorValue); } },
-                { "metrics", n => { Metrics = n.GetCollectionOfObjectValues<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Metric>(global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Metric.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "metrics", n => { Metrics = n.GetCollectionOfObjectValues<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.ApiMetric>(global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.ApiMetric.CreateFromDiscriminatorValue)?.AsList(); } },
             };
         }
         /// <summary>
@@ -82,7 +82,7 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteObjectValue<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Dimension>("dimension", Dimension);
-            writer.WriteCollectionOfObjectValues<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Metric>("metrics", Metrics);
+            writer.WriteCollectionOfObjectValues<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.ApiMetric>("metrics", Metrics);
             writer.WriteAdditionalData(AdditionalData);
         }
     }
