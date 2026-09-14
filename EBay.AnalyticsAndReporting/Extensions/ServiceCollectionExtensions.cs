@@ -12,10 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
-using System;
-using System.Net.Http;
-using EBay.AnalyticsAndReporting.Clients.Rest;
+using EBay.AnalyticsAndReporting;
 using EBay.AnalyticsAndReporting.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -27,24 +24,30 @@ public static class ServiceCollectionExtensions
         this IServiceCollection services,
         AnalyticsAndReportingConfiguration config)
     {
-        ArgumentNullException.ThrowIfNull(services);
-        ArgumentNullException.ThrowIfNull(config);
-
         services.AddSingleton(config);
         services.AddSingleton<ITokenContext, AsyncLocalTokenContext>();
-        services.AddHttpClient(nameof(AnalyticsAndReportingClient))
-            .ConfigureHttpClient(c => c.Timeout = config.HttpTimeout)
-            .AddHttpMessageHandler(sp => new DiagnosticLoggingHandler(sp.GetRequiredService<AnalyticsAndReportingConfiguration>()));
+
+        foreach (var endpoint in AnalyticsAndReportingClient.RestEndpointNames)
+        {
+            var id = endpoint.ApiId;
+            services.AddHttpClient(endpoint.HttpClientName, (sp, c) =>
+                    c.BaseAddress = new Uri(sp.GetRequiredService<AnalyticsAndReportingConfiguration>().RestBaseUrl(id)))
+                .ConfigureHttpClient((sp, c) =>
+                    c.Timeout = sp.GetRequiredService<AnalyticsAndReportingConfiguration>().HttpTimeout)
+                .AddHttpMessageHandler(sp =>
+                    new DiagnosticLoggingHandler(sp.GetRequiredService<AnalyticsAndReportingConfiguration>()));
+        }
+
         services.AddScoped<AnalyticsAndReportingClient>(sp =>
         {
-            var httpClient = sp.GetRequiredService<IHttpClientFactory>().CreateClient(nameof(AnalyticsAndReportingClient));
-            var tokenContext = sp.GetRequiredService<ITokenContext>();
-            return new AnalyticsAndReportingClient(config, httpClient, tokenContext);
+            var factory = sp.GetRequiredService<IHttpClientFactory>();
+            return new AnalyticsAndReportingClient(
+                sp.GetRequiredService<AnalyticsAndReportingConfiguration>(),
+                factory,
+                sp.GetRequiredService<ITokenContext>());
         });
 
-        // Register sub-clients for direct injection
         services.AddScoped(sp => sp.GetRequiredService<AnalyticsAndReportingClient>().Analytics);
-
         return services;
     }
 }

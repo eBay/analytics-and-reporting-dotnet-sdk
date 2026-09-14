@@ -12,9 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
-using System;
-
 namespace EBay.AnalyticsAndReporting.Exceptions;
 
 public class SdkException : Exception
@@ -30,4 +27,13 @@ public sealed class UnauthorizedException : SdkException
 
     public UnauthorizedException(Exception inner)
         : base("Access token is invalid or expired. Obtain a new token and retry.", inner) { }
+}
+
+public sealed class GraphQLException : SdkException
+{
+    public string[] Errors { get; }
+
+    public GraphQLException(string[] errors)
+        : base($"GraphQL errors: {string.Join("; ", errors)}")
+        => Errors = errors;
 }
