@@ -2,10 +2,18 @@
 
 ## 0.2.0 (09/14/2026)
 
-Consolidated experimental release.
+### Breaking changes
 
-- REST clients: `AnalyticsClient`.
-- Includes the current API definitions, regenerated clients, and wrapper updates.
-- Preserves existing wrapper parameter order where signatures allow it.
+#### Renamed clients and members
 
-This entry establishes the consolidated experimental baseline.
+| Previous | Current |
+| --- | --- |
+| `AnalyticsRestSubClient` | `AnalyticsClient` |
+
+#### Changed signatures
+
+`AnalyticsClient`:
+
+| Operation | Previous parameters | Current parameters |
+| --- | --- | --- |
+| `GetTrafficReportAsync` | `(string?, string?, string?, string?, string?, RequestOptions?, CancellationToken)` | `(string, string, string, string?, string?, RequestOptions?, CancellationToken)` |
