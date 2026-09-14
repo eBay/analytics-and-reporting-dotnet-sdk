@@ -22,14 +22,14 @@ using System;
 namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
 {
     /// <summary>
-    /// Type the defines the metadata information of the report. This includes the headers and the individual metadata records.
+    /// This type defines the metadata information of the report. This includes the headers and the individual metadata records.
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public partial class Metadata : IAdditionalDataHolder, IParsable
     {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
-        /// <summary>Type that defines the metadata header fields.</summary>
+        /// <summary>The container that returns the &lt;b&gt;dimensionKeys&lt;/b&gt; and &lt;b&gt;metrics&lt;/b&gt; headers for the report.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.MetadataHeader? MetadataHeader { get; set; }

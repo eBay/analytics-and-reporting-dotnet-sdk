@@ -16,6 +16,9 @@
 
 set -euo pipefail
 
+echo "Pinning Kiota to 1.35.0..."
+dotnet tool update microsoft.openapi.kiota --local --version 1.35.0 --allow-downgrade
+
 echo "Restoring tools..."
 dotnet tool restore
 
@@ -24,7 +27,7 @@ rm -rf ./EBay.AnalyticsAndReporting/Generated
 
 dotnet kiota generate \
   -l csharp \
-  -d specs/openapi/analytics.yaml \
+  -d specs/openapi/analytics.json \
   -c AnalyticsApiClient \
   -n EBay.AnalyticsAndReporting.Generated.Analytics \
   -o EBay.AnalyticsAndReporting/Generated/Analytics \

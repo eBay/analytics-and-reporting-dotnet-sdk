@@ -22,7 +22,7 @@ using System;
 namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
 {
     /// <summary>
-    /// Type that defines the metadata header fields.
+    /// This type defines the metadata header fields.
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public partial class MetadataHeader : IAdditionalDataHolder, IParsable

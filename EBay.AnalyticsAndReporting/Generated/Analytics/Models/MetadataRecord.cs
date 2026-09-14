@@ -37,7 +37,7 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
 #else
         public List<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Value> MetadataValues { get; set; }
 #endif
-        /// <summary>A complex type that contains a value, plus the veracity of that value.</summary>
+        /// <summary>The value of the key on which the report is based. &lt;br&gt;&lt;br&gt;For example, if the key is the listing ID, the value of this container could be: &lt;br&gt;&lt;br&gt;&lt;code&gt;&quot;value&quot;: {&lt;br&gt;&amp;nbsp;&amp;nbsp;&quot;value&quot;: &quot;142133954229&quot;,&lt;br&gt;&amp;nbsp;&amp;nbsp;&quot;applicable&quot;: true&lt;br&gt;}&lt;/code&gt;</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.Value? Value { get; set; }

@@ -22,21 +22,15 @@ using System;
 namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
 {
     /// <summary>
-    /// A complex type that describes a program cycle.
+    /// A complex type that specifies the profile&apos;s evaluation cycle (&lt;code&gt;CURRENT&lt;/code&gt; or &lt;code&gt;PROJECTED&lt;/code&gt;), the date the evaluation was calculated, and  the month to which the evaluation pertains.  &lt;br&gt;&lt;br&gt;Each program has at least one cycle, but a program can include both cycle types.
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public partial class Cycle : IAdditionalDataHolder, IParsable
     {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
-        /// <summary>The cycle type, either &lt;code&gt;CURRENT&lt;/code&gt; or &lt;code&gt;PROJECTED&lt;/code&gt;. &lt;br&gt;&lt;br&gt;&lt;code&gt;CURRENT&lt;/code&gt; means the profile&apos;s metrics values are from the most recent official eBay  monthly standards evaluation. &lt;code&gt;PROJECTED&lt;/code&gt; means the profile values were determined when the profile was requested. For implementation help, refer to &lt;a href=&apos;https://developer.ebay.com/api-docs/sell/analytics/types/ssp:CycleTypeEnum&apos;&gt;eBay API documentation&lt;/a&gt;</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? CycleType { get; set; }
-#nullable restore
-#else
-        public string CycleType { get; set; }
-#endif
+        /// <summary>The cycle type, either &lt;code&gt;CURRENT&lt;/code&gt; or &lt;code&gt;PROJECTED&lt;/code&gt;. &lt;br&gt;&lt;br&gt;&lt;code&gt;CURRENT&lt;/code&gt; means the profile&apos;s metrics values are from the most recent official eBay  monthly standards evaluation. &lt;code&gt;PROJECTED&lt;/code&gt; means the profile values were determined when the profile was requested.</summary>
+        public global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.CycleTypeEnum? CycleType { get; set; }
         /// <summary>The date and time at which the standard compliance values were determined for the profile.  &lt;br&gt;&lt;br&gt;The time stamp is formatted as an &lt;a href=&quot;https://www.iso.org/iso-8601-date-and-time-format.html&quot; target=&quot;_blank&quot;&gt;ISO 8601&lt;/a&gt; string, which is based on the 24-hour Universal Coordinated Time (UTC) clock. &lt;br&gt;&lt;br&gt;&lt;b&gt;Format:&lt;/b&gt; &lt;code&gt;[YYYY]-[MM]-[DD]T[hh]:[mm]:[ss].[sss]Z&lt;/code&gt; &lt;br&gt;&lt;b&gt;Example:&lt;/b&gt; &lt;code&gt;2018-08-04T07:09:00.000Z&lt;/code&gt;</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -78,7 +72,7 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "cycleType", n => { CycleType = n.GetStringValue(); } },
+                { "cycleType", n => { CycleType = n.GetEnumValue<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.CycleTypeEnum>(); } },
                 { "evaluationDate", n => { EvaluationDate = n.GetStringValue(); } },
                 { "evaluationMonth", n => { EvaluationMonth = n.GetStringValue(); } },
             };
@@ -90,7 +84,7 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-            writer.WriteStringValue("cycleType", CycleType);
+            writer.WriteEnumValue<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.CycleTypeEnum>("cycleType", CycleType);
             writer.WriteStringValue("evaluationDate", EvaluationDate);
             writer.WriteStringValue("evaluationMonth", EvaluationMonth);
             writer.WriteAdditionalData(AdditionalData);

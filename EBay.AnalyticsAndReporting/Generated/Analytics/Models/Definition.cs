@@ -29,14 +29,8 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
     {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
-        /// <summary>Indicates the data type of the returned dimension. For example, if the &lt;b&gt;dimension&lt;/b&gt; is &lt;code&gt;day&lt;/code&gt;, the data type is &lt;code&gt;DATE&lt;/code&gt;. For implementation help, refer to &lt;a href=&apos;https://developer.ebay.com/api-docs/sell/analytics/types/ssp:DataTypeEnum&apos;&gt;eBay API documentation&lt;/a&gt;</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? DataType { get; set; }
-#nullable restore
-#else
-        public string DataType { get; set; }
-#endif
+        /// <summary>Indicates the data type of the returned dimension. For example, if the &lt;b&gt;dimension&lt;/b&gt; is &lt;code&gt;day&lt;/code&gt;, the data type is &lt;code&gt;DATE&lt;/code&gt;.</summary>
+        public global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.SrlDataTypeEnum? DataType { get; set; }
         /// <summary>The value the &lt;b&gt;dimension&lt;/b&gt; or &lt;b&gt;metric&lt;/b&gt; parameter as submitted in the request.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -78,7 +72,7 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "dataType", n => { DataType = n.GetStringValue(); } },
+                { "dataType", n => { DataType = n.GetEnumValue<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.SrlDataTypeEnum>(); } },
                 { "key", n => { Key = n.GetStringValue(); } },
                 { "localizedName", n => { LocalizedName = n.GetStringValue(); } },
             };
@@ -90,7 +84,7 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-            writer.WriteStringValue("dataType", DataType);
+            writer.WriteEnumValue<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.SrlDataTypeEnum>("dataType", DataType);
             writer.WriteStringValue("key", Key);
             writer.WriteStringValue("localizedName", LocalizedName);
             writer.WriteAdditionalData(AdditionalData);

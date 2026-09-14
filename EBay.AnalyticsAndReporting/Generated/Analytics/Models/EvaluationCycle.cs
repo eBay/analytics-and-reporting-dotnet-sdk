@@ -29,7 +29,7 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
     {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
-        /// <summary>End date and time of the transaction lookback range. All timestamps are based on Mountain Standard Time (MST).  &lt;br&gt;&lt;br&gt;The timestamp is formatted as an &lt;a href=&quot;https://www.iso.org/iso-8601-date-and-time-format.html&quot; title=&quot;https://www.iso.org&quot; target=&quot;_blank&quot;&gt;ISO 8601&lt;/a&gt; string, which is based on the 24-hour Coordinated Universal Time (UTC) clock.</summary>
+        /// <summary>The end date and time of the transaction lookback range. All timestamps are based on Mountain Standard Time (MST).  &lt;br&gt;&lt;br&gt;The timestamp is formatted as an &lt;a href=&quot;https://www.iso.org/iso-8601-date-and-time-format.html&quot; title=&quot;https://www.iso.org&quot; target=&quot;_blank&quot;&gt;ISO 8601&lt;/a&gt; string, which is based on the 24-hour Coordinated Universal Time (UTC) clock.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? EndDate { get; set; }
@@ -45,14 +45,8 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
 #else
         public string EvaluationDate { get; set; }
 #endif
-        /// <summary>This field specifies the transaction &lt;i&gt;lookback period&lt;/i&gt; used for the evaluation. &lt;br&gt;&lt;br&gt;The &lt;b&gt;evaluation_type&lt;/b&gt; value specified in the request is returned in this field. There are two possible values:  &lt;ul&gt;&lt;li&gt;&lt;code&gt;CURRENT&lt;/code&gt; &amp;ndash; A monthly evaluation that occurs on the 20th of every month.&lt;/li&gt; &lt;li&gt;&lt;code&gt;PROJECTED&lt;/code&gt; &amp;ndash; A daily evaluation that provides a projection of how the seller is currently performing with regards to the upcoming evaluation period.&lt;/li&gt;&lt;/ul&gt; For implementation help, refer to &lt;a href=&apos;https://developer.ebay.com/api-docs/sell/analytics/types/api:EvaluationTypeEnum&apos;&gt;eBay API documentation&lt;/a&gt;</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? EvaluationType { get; set; }
-#nullable restore
-#else
-        public string EvaluationType { get; set; }
-#endif
+        /// <summary>This field specifies the transaction &lt;i&gt;lookback period&lt;/i&gt; used for the evaluation. &lt;br&gt;&lt;br&gt;The &lt;b&gt;evaluation_type&lt;/b&gt; value specified in the request is returned in this field. There are two possible values:  &lt;ul&gt;&lt;li&gt;&lt;code&gt;CURRENT&lt;/code&gt; &amp;ndash; A monthly evaluation that occurs on the 20th of every month.&lt;/li&gt; &lt;li&gt;&lt;code&gt;PROJECTED&lt;/code&gt; &amp;ndash; A daily evaluation that provides a projection of how the seller is currently performing with regards to the upcoming evaluation period.&lt;/li&gt;&lt;/ul&gt;</summary>
+        public global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.EvaluationTypeEnum? EvaluationType { get; set; }
         /// <summary>The start date and time of the transaction lookback range. All timestamps are based on Mountain Standard Time (MST).  &lt;br&gt;&lt;br&gt;The timestamp is formatted as an &lt;a href=&quot;https://www.iso.org/iso-8601-date-and-time-format.html&quot; title=&quot;https://www.iso.org&quot; target=&quot;_blank&quot;&gt;ISO 8601&lt;/a&gt; string, which is based on the 24-hour Coordinated Universal Time (UTC) clock.  &lt;br&gt;&lt;br&gt;&lt;b&gt;Format:&lt;/b&gt; &lt;code&gt;[YYYY]-[MM]-[DD]T[hh]:[mm]:[ss].[sss]Z&lt;/code&gt; &lt;br&gt;&lt;b&gt;Example:&lt;/b&gt; &lt;code&gt;2018-08-04T07:09:00.000Z&lt;/code&gt;</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -88,7 +82,7 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
             {
                 { "endDate", n => { EndDate = n.GetStringValue(); } },
                 { "evaluationDate", n => { EvaluationDate = n.GetStringValue(); } },
-                { "evaluationType", n => { EvaluationType = n.GetStringValue(); } },
+                { "evaluationType", n => { EvaluationType = n.GetEnumValue<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.EvaluationTypeEnum>(); } },
                 { "startDate", n => { StartDate = n.GetStringValue(); } },
             };
         }
@@ -101,7 +95,7 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteStringValue("endDate", EndDate);
             writer.WriteStringValue("evaluationDate", EvaluationDate);
-            writer.WriteStringValue("evaluationType", EvaluationType);
+            writer.WriteEnumValue<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.EvaluationTypeEnum>("evaluationType", EvaluationType);
             writer.WriteStringValue("startDate", StartDate);
             writer.WriteAdditionalData(AdditionalData);
         }

@@ -22,7 +22,7 @@ using System;
 namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
 {
     /// <summary>
-    /// Type that defines the fields of the individual record of the report.
+    /// This type defines the fields of the individual record of the report.
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public partial class Record : IAdditionalDataHolder, IParsable

@@ -22,21 +22,15 @@ using System;
 namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
 {
     /// <summary>
-    /// The fields in this complex type define the dimension, or attributes, by which the associated customer service metric and benchmark data is measured.  &lt;br&gt;&lt;br&gt;The value of &lt;b&gt;dimensionKey&lt;/b&gt; gets set according to the configuration of the input request. The &lt;b&gt;name&lt;/b&gt; and &lt;b&gt;value&lt;/b&gt; pair further define dimension under the key.
+    /// This complex type defines the dimension, or attributes, by which the associated customer service metric and benchmark data is measured.  &lt;br&gt;&lt;br&gt;The value of &lt;b&gt;dimensionKey&lt;/b&gt; gets set according to the configuration of the input request. The &lt;b&gt;name&lt;/b&gt; and &lt;b&gt;value&lt;/b&gt; pair further define dimension under the key.
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public partial class Dimension : IAdditionalDataHolder, IParsable
     {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
-        /// <summary>&lt;b&gt;dimensionKey&lt;/b&gt; defines the basis against which the seller&apos;s customer service metric is measured.  &lt;br&gt;&lt;br&gt;The value of this field gets set according to the value of the &lt;b&gt;customer_service_metric_type&lt;/b&gt; input parameter. The following input configurations return the responses shown: &lt;ul&gt;&lt;li&gt;&lt;code&gt;ITEM_NOT_AS_DESCRIBED&lt;/code&gt; &amp;ndash; Returns benchmark ratings based on L1 listing categories, so the result shows metrics where the &lt;b&gt;dimensionKey&lt;/b&gt; is set to &lt;code&gt;LISTING_CATEGORY&lt;/code&gt;.&lt;/li&gt;  &lt;li&gt;&lt;code&gt;ITEM_NOT_RECEIVED&lt;/code&gt; &amp;ndash; Returns benchmark ratings based on world shipping regions, so the result shows metrics where the &lt;b&gt;dimensionKey&lt;/b&gt; is set to &lt;code&gt;SHIPPING_REGION&lt;/code&gt;.  &lt;br&gt;&lt;br&gt;The shipping region is indicated by the associated &lt;b&gt;value&lt;/b&gt; field. For specifics on world shipping regions, see the FAQ section on the following page: &lt;a href=&quot;https://www.ebay.com/help/selling/selling/monitor-service-metrics?id=4785&quot; title=&quot;eBay Help page&quot; target=&quot;_blank&quot;&gt;Monitor your service metrics&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt; For implementation help, refer to &lt;a href=&apos;https://developer.ebay.com/api-docs/sell/analytics/types/api:DimensionTypeEnum&apos;&gt;eBay API documentation&lt;/a&gt;</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? DimensionKey { get; set; }
-#nullable restore
-#else
-        public string DimensionKey { get; set; }
-#endif
+        /// <summary>This enum defines the basis against which the seller&apos;s customer service metric is measured.  &lt;br&gt;&lt;br&gt;The value of this field gets set according to the value of the &lt;b&gt;customer_service_metric_type&lt;/b&gt; input parameter. The following input configurations return the responses shown: &lt;ul&gt;&lt;li&gt;&lt;code&gt;ITEM_NOT_AS_DESCRIBED&lt;/code&gt; &amp;ndash; Returns benchmark ratings based on L1 listing categories, so the result shows metrics where the &lt;b&gt;dimensionKey&lt;/b&gt; is set to &lt;code&gt;LISTING_CATEGORY&lt;/code&gt;.&lt;/li&gt;  &lt;li&gt;&lt;code&gt;ITEM_NOT_RECEIVED&lt;/code&gt; &amp;ndash; Returns benchmark ratings based on world shipping regions, so the result shows metrics where the &lt;b&gt;dimensionKey&lt;/b&gt; is set to &lt;code&gt;SHIPPING_REGION&lt;/code&gt;.&lt;/li&gt;&lt;/ul&gt;&lt;br&gt;The shipping region is indicated by the associated &lt;b&gt;value&lt;/b&gt; field. For specifics on world shipping regions, see the FAQ section on the following page: &lt;a href=&quot;https://www.ebay.com/help/selling/selling/monitor-service-metrics?id=4785&quot; title=&quot;eBay Help page&quot; target=&quot;_blank&quot;&gt;Monitor your service metrics&lt;/a&gt;</summary>
+        public global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.DimensionTypeEnum? DimensionKey { get; set; }
         /// <summary>The dimension name returned in this field depends on the &lt;b&gt;dimensionKey&lt;/b&gt;: &lt;ul&gt;&lt;li&gt;If  &lt;b&gt;dimensionKey&lt;/b&gt; is set to &lt;code&gt;SHIPPING_REGION&lt;/code&gt;, this field is set to one of following values, which represent established shipping corridors: &lt;ul&gt;&lt;li&gt;&lt;code&gt;Domestic&lt;/code&gt;&lt;/li&gt; &lt;li&gt;&lt;code&gt;International: Mature region&lt;/code&gt;&lt;/li&gt; &lt;li&gt;&lt;code&gt;International: Emerging region&lt;/code&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;  &lt;li&gt;If &lt;b&gt;dimensionKey&lt;/b&gt; is set to &lt;code&gt;LISTING_CATEGORY&lt;/code&gt;, this field is set to the name of the primary (L1) category in which the items being rated were listed.&lt;/li&gt;&lt;/ul&gt;</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -78,7 +72,7 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "dimensionKey", n => { DimensionKey = n.GetStringValue(); } },
+                { "dimensionKey", n => { DimensionKey = n.GetEnumValue<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.DimensionTypeEnum>(); } },
                 { "name", n => { Name = n.GetStringValue(); } },
                 { "value", n => { Value = n.GetStringValue(); } },
             };
@@ -90,7 +84,7 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-            writer.WriteStringValue("dimensionKey", DimensionKey);
+            writer.WriteEnumValue<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.DimensionTypeEnum>("dimensionKey", DimensionKey);
             writer.WriteStringValue("name", Name);
             writer.WriteStringValue("value", Value);
             writer.WriteAdditionalData(AdditionalData);

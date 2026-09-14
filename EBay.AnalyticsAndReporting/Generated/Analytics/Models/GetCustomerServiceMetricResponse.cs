@@ -37,7 +37,7 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
 #else
         public List<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.DimensionMetric> DimensionMetrics { get; set; }
 #endif
-        /// <summary>This complex type describes the start and end dates of the of the time period over which the associated benchmark is computed.  &lt;br&gt;&lt;br&gt;All timestamps are based on Mountain Standard Time (MST).  &lt;br&gt;&lt;br&gt;The timestamp is formatted as an &lt;a href=&quot;https://www.iso.org/iso-8601-date-and-time-format.html&quot; title=&quot;https://www.iso.org&quot; target=&quot;_blank&quot;&gt;ISO 8601&lt;/a&gt; string, which is based on the 24-hour Coordinated Universal Time (UTC) clock.</summary>
+        /// <summary>This complex type defines the evaluation type (&lt;code&gt;CURRENT&lt;/code&gt; or &lt;code&gt;PROJECTED&lt;/code&gt;) and the transaction lookback period used to calculate the seller&apos;s customer service metric.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.EvaluationCycle? EvaluationCycle { get; set; }
@@ -45,14 +45,8 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
 #else
         public global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.EvaluationCycle EvaluationCycle { get; set; }
 #endif
-        /// <summary>The eBay marketplace ID of the marketplace upon which the customer service metric evaluation is based.  &lt;br&gt;&lt;br&gt;The &lt;b&gt;customer_service_metric&lt;/b&gt; resource supports a limited set of marketplaces. For a complete list of the supported marketplaces, please see the &lt;a href=&quot;https://www.ebay.com/help/policies/selling-policies/seller-performance-policy/service-metrics-policy?id=4769#section2&quot; title=&quot;eBay Help pages&quot;&gt;Service metrics policy&lt;/a&gt; page. For implementation help, refer to &lt;a href=&apos;https://developer.ebay.com/api-docs/sell/analytics/types/bas:MarketplaceIdEnum&apos;&gt;eBay API documentation&lt;/a&gt;</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? MarketplaceId { get; set; }
-#nullable restore
-#else
-        public string MarketplaceId { get; set; }
-#endif
+        /// <summary>The eBay marketplace ID of the marketplace upon which the customer service metric evaluation is based.  &lt;br&gt;&lt;br&gt;The &lt;b&gt;customer_service_metric&lt;/b&gt; resource supports a limited set of marketplaces. For a complete list of the supported marketplaces, please see the &lt;a href=&quot;https://www.ebay.com/help/policies/selling-policies/seller-performance-policy/service-metrics-policy?id=4769#section2&quot; title=&quot;eBay Help pages&quot; target=&quot;_blank&quot;&gt;Service metrics policy&lt;/a&gt; page.</summary>
+        public global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.MarketplaceIdEnum? MarketplaceId { get; set; }
         /// <summary>
         /// Instantiates a new <see cref="global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.GetCustomerServiceMetricResponse"/> and sets the default values.
         /// </summary>
@@ -80,7 +74,7 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
             {
                 { "dimensionMetrics", n => { DimensionMetrics = n.GetCollectionOfObjectValues<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.DimensionMetric>(global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.DimensionMetric.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "evaluationCycle", n => { EvaluationCycle = n.GetObjectValue<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.EvaluationCycle>(global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.EvaluationCycle.CreateFromDiscriminatorValue); } },
-                { "marketplaceId", n => { MarketplaceId = n.GetStringValue(); } },
+                { "marketplaceId", n => { MarketplaceId = n.GetEnumValue<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.MarketplaceIdEnum>(); } },
             };
         }
         /// <summary>
@@ -92,7 +86,7 @@ namespace EBay.AnalyticsAndReporting.Generated.Analytics.Models
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteCollectionOfObjectValues<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.DimensionMetric>("dimensionMetrics", DimensionMetrics);
             writer.WriteObjectValue<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.EvaluationCycle>("evaluationCycle", EvaluationCycle);
-            writer.WriteStringValue("marketplaceId", MarketplaceId);
+            writer.WriteEnumValue<global::EBay.AnalyticsAndReporting.Generated.Analytics.Models.MarketplaceIdEnum>("marketplaceId", MarketplaceId);
             writer.WriteAdditionalData(AdditionalData);
         }
     }
