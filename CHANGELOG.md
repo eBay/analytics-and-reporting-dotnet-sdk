@@ -16,4 +16,4 @@
 
 | Operation | Previous parameters | Current parameters |
 | --- | --- | --- |
-| `GetTrafficReportAsync` | `(string?, string?, string?, string?, string?, RequestOptions?, CancellationToken)` | `(string, string, string, string?, string?, RequestOptions?, CancellationToken)` |
+| `GetTrafficReportAsync` | `(string? dimension, string? filter, string? metric, string? sort, string? accessToken, RequestOptions? requestOptions, CancellationToken cancellationToken)` | `(string dimension, string filter, string metric, string? sort, string? accessToken, RequestOptions? requestOptions, CancellationToken ct)` |
