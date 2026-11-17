@@ -4,6 +4,7 @@ A .NET SDK for eBay Analytics and Reporting APIs.
 
 ## Features
 
+- **Target frameworks**: .NET Framework 4.7.2, .NET 8, .NET 9 and .NET 10
 - **Analytics API**: Complete coverage of seller performance metrics and reporting (4 operations)
 - **OAuth Authentication**: Token refresh handler interface for seamless authentication
 - **Dependency Injection**: First-class support for ASP.NET Core DI
@@ -106,40 +107,23 @@ var traffic = await client.GetTrafficReportAsync(
 
 ### 3. Dependency Injection (ASP.NET Core)
 
+`AddAnalyticsAndReportingSdk` registers the configuration and one shared `AnalyticsAndReportingClient` (a singleton that owns its HTTP connections and is disposed with the container). Inject the client and use its properties for the individual APIs:
+
 ```csharp
+using EBay.AnalyticsAndReporting;
+using EBay.AnalyticsAndReporting.Configuration;
 using EBay.AnalyticsAndReporting.Extensions;
 
-// In Program.cs
-builder.Services.AddAnalyticsAndReportingSdk(config =>
+builder.Services.AddAnalyticsAndReportingSdk(new AnalyticsAndReportingConfiguration
 {
-    config.TokenRefreshHandler = new MyTokenRefreshHandler(clientId, secret);
+    AccessToken = builder.Configuration["EBay:AccessToken"]
 });
 
-// Inject the client
-public class AnalyticsController : ControllerBase
-{
-    private readonly AnalyticsAndReportingClient _client;
-
-    public AnalyticsController(AnalyticsAndReportingClient client)
-    {
-        _client = client;
-    }
-
-    [HttpGet("profiles")]
-    public async Task<IActionResult> GetProfiles()
-    {
-        var profiles = await _client.FindSellerStandardsProfilesAsync();
-        return Ok(profiles);
-    }
-
-    [HttpGet("metrics/{type}/{evaluation}")]
-    public async Task<IActionResult> GetMetrics(string type, string evaluation)
-    {
-        var metrics = await _client.GetCustomerServiceMetricAsync(type, evaluation);
-        return Ok(metrics);
-    }
-}
+app.MapGet("/example", async (AnalyticsAndReportingClient sdk) =>
+    Results.Ok(await sdk.Analytics.FindSellerStandardsProfilesAsync()));
 ```
+
+To route requests through your own handler (proxy, client certificates, a test double), pass it to the constructor: `new AnalyticsAndReportingClient(config, handler)`. The handler is shared by all APIs and is not disposed by the client.
 
 ## API Operations
 
@@ -179,6 +163,25 @@ var report = await client.GetTrafficReportAsync(
 ```
 **Dimensions**: `DAY`, `LISTING`  
 **Metrics**: `CLICK_THROUGH_RATE`, `LISTING_IMPRESSION_TOTAL`, `LISTING_IMPRESSION_SEARCH_RESULTS_PAGE`, `LISTING_VIEWS_TOTAL`
+
+## Trusted hosts and sandbox
+
+The access token is only sent to trusted hosts: the eBay hosts in `AnalyticsAndReportingConfiguration.DefaultAllowedHosts` (production and their `*.sandbox.ebay.com` counterparts) plus any you add to `AllowedHosts`. The sandbox needs no extra configuration:
+
+```csharp
+var config = new AnalyticsAndReportingConfiguration
+{
+    AccessToken = "...",
+    AnalyticsBaseUrl = "https://api.sandbox.ebay.com/sell/analytics/v1",
+};
+```
+
+Any other host, for example a proxy, has to be added explicitly; the client constructor throws `InvalidOperationException` otherwise:
+
+```csharp
+config.AnalyticsBaseUrl = "https://ebay-proxy.example.com/sell/analytics/v1";
+config.AllowedHosts.Add("ebay-proxy.example.com");
+```
 
 ## Error Handling
 
@@ -221,9 +224,8 @@ dotnet build EBay.AnalyticsAndReporting/EBay.AnalyticsAndReporting.csproj
 
 ## Dependencies
 
-- **Microsoft.Kiota.Bundle**: REST client generation and runtime
-- **Microsoft.Extensions.DependencyInjection.Abstractions**: DI support
-- **Microsoft.Extensions.Http**: HttpClient factory integration
+- **Microsoft.Kiota.Bundle** (>= 1.22.0): REST runtime
+- **Microsoft.Extensions.DependencyInjection.Abstractions** (>= 6.0.0): `AddAnalyticsAndReportingSdk` registration
 
 ## License
 
