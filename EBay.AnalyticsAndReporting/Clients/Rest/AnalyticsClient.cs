@@ -57,7 +57,7 @@ public sealed class AnalyticsClient
     /// This call retrieves all the standards profiles for the associated seller.
     /// A <i>standards profile </i> is a set of eBay seller metrics and the seller's associated compliance values (either <c>TOP_RATED</c>, <c>ABOVE_STANDARD</c>, or <c>BELOW_STANDARD</c>).
     /// A seller's multiple profiles are distinguished by two criteria, a "program" and a "cycle." A profile's <i>program </i> is one of three regions where the seller may have done business, or <c>PROGRAM_GLOBAL</c> to indicate all marketplaces where the seller has done business. The <i>cycle</i> value specifies whether the standards compliance values were determined at the last official eBay evaluation or at the time of the request.
-    /// For more information on the interpreting the response payload of this method, see <see href="/api-docs/sell/static/performance/seller-standards.html">Seller standards profile</see>.
+    /// For more information on the interpreting the response payload of this method, see <see href="https://developer.ebay.com/api-docs/sell/static/performance/seller-standards.html">Seller standards profile</see>.
     /// </summary>
     public Task<FindSellerStandardsProfilesResponse?> FindSellerStandardsProfilesAsync(
         string? accessToken = null,
@@ -75,7 +75,7 @@ public sealed class AnalyticsClient
     /// This call retrieves a single standards profile for the associated seller.
     /// A <i>standards profile </i> is a set of eBay seller metrics and the seller's associated compliance values (either <c>TOP_RATED</c>, <c>ABOVE_STANDARD</c>, or <c>BELOW_STANDARD</c>).
     /// A seller can have multiple profiles distinguished by two criteria, a "program" and a "cycle." A profile's <i>program </i> is one of three regions where the seller may have done business, or <c>PROGRAM_GLOBAL</c> to indicate all marketplaces where the seller has done business. The <i>cycle</i> value specifies whether the standards compliance values were determined at the last official eBay evaluation (<c>CURRENT</c>) or at the time of the request (<c>PROJECTED</c>). Both cycle and a program values are required URI parameters for this method.
-    /// For more information on the interpreting the response payload of this method, see <see href="/api-docs/sell/static/performance/seller-standards.html">Seller standards profile</see>.
+    /// For more information on the interpreting the response payload of this method, see <see href="https://developer.ebay.com/api-docs/sell/static/performance/seller-standards.html">Seller standards profile</see>.
     /// </summary>
     public Task<StandardsProfile?> GetSellerStandardsProfileAsync(
         string cycle,
@@ -94,7 +94,7 @@ public sealed class AnalyticsClient
     /// <summary>
     /// This method returns a report that details the user traffic received by a seller's listings.
     /// A traffic report gives sellers the ability to review how often their listings appeared on eBay, how many times their listings are viewed, and how many purchases were made. The report also returns the report's start and end dates, and the date the information was last updated.
-    /// For more information, see <see href="/api-docs/sell/static/performance/traffic-report.html">Traffic report details</see>
+    /// For more information, see <see href="https://developer.ebay.com/api-docs/sell/static/performance/traffic-report.html">Traffic report details</see>
     /// </summary>
     public Task<Report?> GetTrafficReportAsync(
         string dimension,

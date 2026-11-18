@@ -1,3 +1,5 @@
 <Solution>
   <Project Path="EBay.AnalyticsAndReporting/EBay.AnalyticsAndReporting.csproj" />
+  <Project Path="tests/EBay.AnalyticsAndReporting.CSharp73/EBay.AnalyticsAndReporting.CSharp73.csproj" />
+  <Project Path="tests/EBay.AnalyticsAndReporting.Tests/EBay.AnalyticsAndReporting.Tests.csproj" />
 </Solution>
