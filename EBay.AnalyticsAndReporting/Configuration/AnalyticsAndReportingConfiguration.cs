@@ -21,7 +21,7 @@ public sealed class AnalyticsAndReportingConfiguration
     public string AnalyticsBaseUrl
     {
         get => _analyticsBaseUrl;
-        set => _analyticsBaseUrl = RequireHttps(value);
+        set => _analyticsBaseUrl = RequireHttpsOrLoopback(value);
     }
 
     /// <summary>Fallback bearer token used when no per-call accessToken is supplied.</summary>
@@ -58,18 +58,46 @@ public sealed class AnalyticsAndReportingConfiguration
 
     /// <summary>
     /// Additional hosts the SDK trusts with the access token, for example <c>api.sandbox.ebay.com</c>.
+    /// Add <c>127.0.0.1</c> to target a local mock server over HTTP.
     /// Every configured base URL must use a host from <see cref="DefaultAllowedHosts"/> or this list;
     /// the client constructor throws otherwise. Requests to any other host never carry the token.
     /// </summary>
     public IList<string> AllowedHosts { get; set; } = new List<string>();
 
+    /// <summary>
+    /// Hosts that may use plain HTTP, for example a local mock server. They must still be allowed hosts;
+    /// every other host requires HTTPS.
+    /// </summary>
+    public static IReadOnlyList<string> LoopbackHosts { get; } = Array.AsReadOnly(new[]
+    {
+        "127.0.0.1",
+        "::1",
+        "localhost"
+    });
+
+    private static bool UsesTrustedScheme(Uri uri) =>
+        string.Equals(uri.Scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase)
+        || (string.Equals(uri.Scheme, Uri.UriSchemeHttp, StringComparison.OrdinalIgnoreCase)
+            && LoopbackHosts.Contains(NormalizeHost(uri.Host), StringComparer.OrdinalIgnoreCase));
+
+    /// <summary>Lowercases <paramref name="host"/> and removes IPv6 brackets.</summary>
+    internal static string NormalizeHost(string host)
+    {
+        var lower = host.ToLowerInvariant();
+        return lower.Length > 1 && lower[0] == '[' && lower[lower.Length - 1] == ']'
+            ? lower.Substring(1, lower.Length - 2)
+            : lower;
+    }
+
     internal ISet<string> TrustedHosts() =>
-        new HashSet<string>(DefaultAllowedHosts.Concat(AllowedHosts ?? new List<string>()), StringComparer.OrdinalIgnoreCase);
+        new HashSet<string>(
+            DefaultAllowedHosts.Concat(AllowedHosts ?? new List<string>()).Select(NormalizeHost),
+            StringComparer.OrdinalIgnoreCase);
 
     internal bool IsTrustedHost(Uri? uri) =>
         uri is not null
-        && string.Equals(uri.Scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase)
-        && TrustedHosts().Contains(uri.Host);
+        && UsesTrustedScheme(uri)
+        && TrustedHosts().Contains(NormalizeHost(uri.Host));
 
     internal void ValidateTrustedHosts()
     {
@@ -79,7 +107,7 @@ public sealed class AnalyticsAndReportingConfiguration
             ("AnalyticsBaseUrl", AnalyticsBaseUrl)
         })
         {
-            var host = new Uri(url).Host;
+            var host = NormalizeHost(new Uri(url).Host);
             if (!trusted.Contains(host))
             {
                 throw new InvalidOperationException(
@@ -88,11 +116,11 @@ public sealed class AnalyticsAndReportingConfiguration
         }
     }
 
-    private static string RequireHttps(string value)
+    private static string RequireHttpsOrLoopback(string value)
     {
-        if (!value.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+        if (!Uri.TryCreate(value, UriKind.Absolute, out var uri) || !UsesTrustedScheme(uri))
         {
-            throw new ArgumentException($"URL must use HTTPS: '{value}'", nameof(value));
+            throw new ArgumentException($"URL must use HTTPS, or HTTP on a loopback host: '{value}'", nameof(value));
         }
         return value;
     }
